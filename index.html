@@ -6,6 +6,11 @@
     <title>Backyard Adventures - Jacksonville Water Sports & Tours</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/home-modern.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -70,13 +75,54 @@
     </script>
 
     <main>
+        <!-- Hero Section -->
         <section class="hero">
+            <div class="hero-overlay"></div>
+            <div class="floating-icons">
+                <i class="fas fa-anchor"></i>
+                <i class="fas fa-ship"></i>
+                <i class="fas fa-compass"></i>
+                <i class="fas fa-water"></i>
+            </div>
             <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    <span>Jacksonville's Premier Water Sports</span>
+                </div>
                 <h1>Discover Jacksonville's Waterways</h1>
-                <p>Join us for guided tours, water sports equipment rentals, and unforgettable adventures</p>
+                <p>Join us for guided tours, water sports equipment rentals, and unforgettable adventures on Florida's most beautiful waters</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <strong>10,000+</strong>
+                            <span>Happy Customers</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-award"></i>
+                        <div>
+                            <strong>5-Star</strong>
+                            <span>Rated Service</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-calendar-check"></i>
+                        <div>
+                            <strong>15+ Years</strong>
+                            <span>Experience</span>
+                        </div>
+                    </div>
+                </div>
                 <div class="cta-buttons">
-                    <a href="tours.html" class="cta-button primary">Book a Tour</a>
-                    <a href="rentals.html" class="cta-button secondary">Rent Equipment</a>
+                    <a href="tours.html" class="cta-button primary">
+                        <i class="fas fa-ship"></i>
+                        Book a Tour
+                    </a>
+                    <a href="rentals.html" class="cta-button secondary">
+                        <i class="fas fa-water"></i>
+                        Rent Equipment
+                    </a>
                 </div>
             </div>
         </section>
@@ -84,71 +130,274 @@
         <script>
             // Populate Tours
             const tours = [
-                { title: "Sunset Kayak Tour", image: "assets/kayak.jpg" },
-                { title: "Dolphin Watching Cruise", image: "assets/dolphin.jpg" },
-                { title: "Mangrove Eco Tour", image: "assets/mangrove.jpg" }
+                { 
+                    title: "Sunset Kayak Tour", 
+                    image: "assets/kayak.jpg",
+                    description: "Experience breathtaking sunset views while paddling through calm waters",
+                    duration: "2 hours",
+                    price: "KSh 45"
+                },
+                { 
+                    title: "Dolphin Watching Cruise", 
+                    image: "assets/dolphin.jpg",
+                    description: "Get up close with dolphins in their natural habitat",
+                    duration: "3 hours",
+                    price: "KSh 75"
+                },
+                { 
+                    title: "Mangrove Eco Tour", 
+                    image: "assets/mangrove.jpg",
+                    description: "Explore the unique ecosystem of Jacksonville's mangroves",
+                    duration: "2.5 hours",
+                    price: "KSh 60"
+                }
             ];
+            
             const tourGrid = document.querySelector(".tour-grid");
             tours.forEach(t => {
                 const card = document.createElement("div");
                 card.className = "tour-card";
-                card.innerHTML = `<img src="${t.image}" alt="${t.title}"><h3>${t.title}</h3>`;
+                card.innerHTML = `
+                    <div class="tour-image">
+                        <img src="${t.image}" alt="${t.title}">
+                        <div class="tour-overlay">
+                            <a href="tours.html" class="explore-btn">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tour-content">
+                        <h3>${t.title}</h3>
+                        <p>${t.description}</p>
+                        <div class="tour-meta">
+                            <div class="meta-item">
+                                <i class="far fa-clock"></i>
+                                <span>${t.duration}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-tag"></i>
+                                <span>${t.price}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
                 tourGrid.appendChild(card);
             });
 
             // Populate Equipment
             const equipment = [
-                { title: "Jet Ski", image: "assets/jetski.jpg" },
-                { title: "Paddle Board", image: "assets/paddle.jpg" },
-                { title: "Life Jacket", image: "assets/jacket.jpg" }
+                { 
+                    title: "Jet Ski", 
+                    image: "assets/jetski.jpg",
+                    description: "High-speed water adventure",
+                    rate: "KSh 80/hr"
+                },
+                { 
+                    title: "Paddle Board", 
+                    image: "assets/paddle.jpg",
+                    description: "Perfect for fitness and fun",
+                    rate: "KSh 25/hr"
+                },
+                { 
+                    title: "Safety Gear", 
+                    image: "assets/jacket.jpg",
+                    description: "Premium safety equipment",
+                    rate: "Included"
+                }
             ];
+            
             const equipmentGrid = document.querySelector(".equipment-grid");
             equipment.forEach(e => {
                 const card = document.createElement("div");
                 card.className = "equipment-card";
-                card.innerHTML = `<img src="${e.image}" alt="${e.title}"><h3>${e.title}</h3>`;
+                card.innerHTML = `
+                    <div class="equipment-image">
+                        <img src="${e.image}" alt="${e.title}">
+                        <div class="equipment-overlay">
+                            <a href="rentals.html" class="explore-btn">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="equipment-content">
+                        <h3>${e.title}</h3>
+                        <p>${e.description}</p>
+                        <div class="equipment-price">${e.rate}</div>
+                    </div>
+                `;
                 equipmentGrid.appendChild(card);
             });
 
-            // Testimonials Slider
+            // Enhanced Testimonials Slider
             const testimonials = [
-                { quote: "An unforgettable experience!", author: "Sarah L." },
-                { quote: "The staff were super friendly and helpful.", author: "Mark W." },
-                { quote: "Beautiful location and amazing tours!", author: "Anna K." }
+                { 
+                    quote: "An unforgettable experience! The sunset kayak tour was absolutely magical. Our guide was knowledgeable and friendly.", 
+                    author: "Sarah L.",
+                    rating: 5,
+                    location: "Miami, FL"
+                },
+                { 
+                    quote: "The staff were super friendly and helpful. Equipment was top-notch and safety was clearly their priority.", 
+                    author: "Mark W.",
+                    rating: 5,
+                    location: "Orlando, FL"
+                },
+                { 
+                    quote: "Beautiful location and amazing tours! We saw dolphins up close. Would definitely recommend to anyone!", 
+                    author: "Anna K.",
+                    rating: 5,
+                    location: "Tampa, FL"
+                }
             ];
 
             const slider = document.querySelector(".testimonials-slider");
-            testimonials.forEach(t => {
+            const dotsContainer = document.querySelector(".testimonial-dots");
+            
+            testimonials.forEach((t, i) => {
                 const div = document.createElement("div");
                 div.className = "testimonial";
-                div.innerHTML = `<p>"${t.quote}"</p><strong>- ${t.author}</strong>`;
+                const stars = '<i class="fas fa-star"></i>'.repeat(t.rating);
+                div.innerHTML = `
+                    <div class="testimonial-icon">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <div class="stars">${stars}</div>
+                    <p class="quote">"${t.quote}"</p>
+                    <div class="author">
+                        <strong>${t.author}</strong>
+                        <span>${t.location}</span>
+                    </div>
+                `;
                 slider.appendChild(div);
+                
+                // Create dot indicator
+                const dot = document.createElement("button");
+                dot.className = i === 0 ? "dot active" : "dot";
+                dot.setAttribute("aria-label", `Go to testimonial ${i + 1}`);
+                dot.addEventListener("click", () => goToSlide(i));
+                dotsContainer.appendChild(dot);
             });
 
-            let index = 0;
-            setInterval(() => {
-                index = (index + 1) % testimonials.length;
+            let currentIndex = 0;
+            const dots = document.querySelectorAll(".dot");
+            
+            function goToSlide(index) {
+                currentIndex = index;
                 slider.style.transform = `translateX(-${index * 100}%)`;
-            }, 4000);
+                dots.forEach((d, i) => {
+                    d.classList.toggle("active", i === index);
+                });
+            }
+            
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % testimonials.length;
+                goToSlide(currentIndex);
+            }
+            
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+                goToSlide(currentIndex);
+            }
+            
+            document.querySelector(".testimonial-nav.next").addEventListener("click", nextSlide);
+            document.querySelector(".testimonial-nav.prev").addEventListener("click", prevSlide);
+            
+            // Auto-advance testimonials
+            setInterval(nextSlide, 5000);
         </script>
 
+        <!-- Featured Tours Section -->
         <section class="featured-tours">
-            <h2>Featured Tours</h2>
+            <div class="section-header">
+                <h2>Featured Adventures</h2>
+                <p class="section-subtitle">Explore our most popular water experiences</p>
+            </div>
             <div class="tour-grid"></div>
+            <div class="view-all-container">
+                <a href="tours.html" class="view-all-btn">
+                    View All Tours
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
         </section>
 
+        <!-- Equipment Preview Section -->
         <section class="equipment-preview">
-            <h2>Available Equipment</h2>
+            <div class="section-header">
+                <h2>Premium Equipment</h2>
+                <p class="section-subtitle">Top-quality gear for your water adventures</p>
+            </div>
             <div class="equipment-grid"></div>
+            <div class="view-all-container">
+                <a href="rentals.html" class="view-all-btn">
+                    View All Equipment
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
         </section>
 
+        <!-- Testimonials Section -->
         <section class="testimonials">
-            <h2>What Our Adventurers Say</h2>
-            <div class="testimonials-slider"></div>
+            <div class="section-header">
+                <h2>What Our Adventurers Say</h2>
+                <p class="section-subtitle">Real experiences from real customers</p>
+            </div>
+            <div class="testimonials-container">
+                <button class="testimonial-nav prev" aria-label="Previous testimonial">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="testimonials-slider"></div>
+                <button class="testimonial-nav next" aria-label="Next testimonial">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="testimonial-dots"></div>
         </section>
 
+        <!-- Why Choose Us Section -->
+        <section class="why-choose-us">
+            <div class="section-header">
+                <h2>Why Choose Backyard Adventures</h2>
+                <p class="section-subtitle">Your trusted partner for water sports excellence</p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Safety First</h3>
+                    <p>All equipment is regularly inspected and maintained to the highest safety standards</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Expert Guides</h3>
+                    <p>Our certified instructors have years of experience on Jacksonville's waters</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Premium Quality</h3>
+                    <p>Top-of-the-line equipment and boats for an unforgettable experience</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Flexible Booking</h3>
+                    <p>Easy online booking with flexible cancellation and rescheduling options</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Location Highlight Section -->
         <section class="location-highlight">
-            <h2>Our Marina Location</h2>
+            <div class="section-header">
+                <h2>Visit Our Marina</h2>
+                <p class="section-subtitle">Conveniently located in the heart of Jacksonville</p>
+            </div>
             <div class="location-content">
                 <div class="map-container">
                     <iframe 
@@ -156,17 +405,40 @@
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.528165471909!2d34.781203573970!3d-0.09317863549453272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182aaa8f20b8fbb7%3A0xb1d4d3a6c67df20!2sJacksonville%20Marina!5e0!3m2!1sen!2ske!4v1699536757273!5m2!1sen!2ske" 
                         width="100%" 
                         height="100%" 
-                        style="border:0;" 
+                        style="border:0;border-radius:20px;" 
                         allowfullscreen="" 
                         loading="lazy">
                     </iframe>
                 </div>
                 <div class="location-info">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
                     <h3>Find Us Here</h3>
-                    <p>Located at Jacksonville Marina</p>
-                    <p>123 Harbor Drive</p>
-                    <p>Jacksonville, FL 32202</p>
-                    <a href="contact.html" class="cta-button">Get Directions</a>
+                    <div class="info-item">
+                        <i class="fas fa-building"></i>
+                        <p>Jacksonville Marina</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-road"></i>
+                        <p>123 Harbor Drive</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-city"></i>
+                        <p>Jacksonville, FL 32202</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <p>(555) 123-4567</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <p>Open Daily: 7 AM - 7 PM</p>
+                    </div>
+                    <a href="contact.html" class="cta-button primary">
+                        <i class="fas fa-directions"></i>
+                        Get Directions
+                    </a>
                 </div>
             </div>
         </section>
