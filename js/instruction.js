@@ -1,4 +1,167 @@
 // Instruction Page JavaScript
+
+// Sample lesson data
+const featuredLessons = [
+    {
+        title: "Kayaking Fundamentals",
+        image: "assets/kayak.jpg",
+        duration: "2 hours",
+        level: "Beginner",
+        price: "$75",
+        description: "Learn the basics of kayaking including paddling techniques, safety, and water confidence."
+    },
+    {
+        title: "Stand-Up Paddleboarding",
+        image: "assets/paddle.jpg",
+        duration: "1.5 hours",
+        level: "Beginner",
+        price: "$65",
+        description: "Master balance, paddling techniques, and basic maneuvers on a SUP board."
+    },
+    {
+        title: "Advanced Kayak Techniques",
+        image: "assets/kayak-advanced.jpg",
+        duration: "3 hours",
+        level: "Advanced",
+        price: "$120",
+        description: "Advanced paddling, rolling techniques, and rescue procedures for experienced kayakers."
+    },
+    {
+        title: "Jet Ski Mastery",
+        image: "assets/jetski.jpg",
+        duration: "2 hours",
+        level: "Intermediate",
+        price: "$95",
+        description: "Learn advanced jet ski handling, safety protocols, and performance techniques."
+    }
+];
+
+// Populate lessons grid
+function populateLessons() {
+    const lessonsGrid = document.getElementById('lessonsGrid');
+    if (!lessonsGrid) return;
+
+    lessonsGrid.innerHTML = featuredLessons.map(lesson => `
+        <div class="lesson-card">
+            <img src="${lesson.image}" alt="${lesson.title}" onerror="this.src='assets/placeholder.jpg'">
+            <div class="lesson-content">
+                <h3>${lesson.title}</h3>
+                <div class="lesson-details">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                        <span><i class="far fa-clock"></i> ${lesson.duration}</span>
+                        <span><i class="fas fa-signal"></i> ${lesson.level}</span>
+                    </div>
+                    <p>${lesson.description}</p>
+                </div>
+                <div class="lesson-price">
+                    <span class="price-tag">${lesson.price}</span>
+                    <button class="book-btn" onclick="openBookingModal('${lesson.title}')">
+                        <i class="fas fa-calendar-check"></i> Book Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// FAQ Toggle functionality
+function initializeFAQ() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        
+        question.addEventListener('click', () => {
+            // Close other open items
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                }
+            });
+            
+            // Toggle current item
+            item.classList.toggle('active');
+        });
+    });
+}
+
+// Booking modal functions
+function openBookingModal(lessonTitle) {
+    const modal = document.querySelector('.booking-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        // You can populate modal with lesson details here
+    }
+}
+
+function closeBookingModal() {
+    const modal = document.querySelector('.booking-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    populateLessons();
+    initializeFAQ();
+    
+    // Close modal when clicking outside
+    const modal = document.querySelector('.booking-modal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeBookingModal();
+            }
+        });
+    }
+    
+    // Close modal button
+    const closeBtn = document.querySelector('.close-modal');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeBookingModal);
+    }
+});
+
+// Add smooth scroll behavior for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Intersection Observer for animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+// Observe all cards for animation
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.benefit-card, .lesson-card, .level-card, .cert-card');
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
+});
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize lessons display
     initLessons();

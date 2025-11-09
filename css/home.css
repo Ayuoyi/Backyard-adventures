@@ -1,13 +1,15 @@
 /* Hero Section */
 .hero {
-    width: 100vw; /* Ensure the section spans the full width of the viewport */
-    height: 100vh; /* Make the hero section cover the entire screen */
+    width: 100vw;
+    height: 100vh;
     min-height: 600px;
-    margin: 0; /* Remove any margin */
-    padding: 0; /* Remove any padding */
-    /* Background image is set dynamically by JS for slideshow effect */
-    background-size: cover; /* Ensure the background image covers the entire area */
-    background-position: center; /* Center the background image */
+    margin: 0;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 0;
+    background: url('../assets/hero-sunset.jpg') center/cover no-repeat;
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
     position: relative;
     display: flex;
@@ -15,9 +17,8 @@
     justify-content: center;
     text-align: center;
     color: white;
-    border-radius: 0; /* Remove border radius */
-    box-sizing: border-box; /* Include padding and border in the element's width and height */
-    overflow: hidden; /* Prevent any content overflow */
+    overflow: hidden;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
 }
 
 .hero::after {
@@ -27,53 +28,75 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.3); /* Simple semi-transparent overlay */
+    background-color: rgba(0, 0, 0, 0.4);
     pointer-events: none;
 }
 
 .hero-content {
     max-width: 800px;
-    padding: var(--spacing-md);
+    padding: 2rem;
     position: relative;
-    z-index: 1; /* Place above the overlay */
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
 }
 
 .hero h1 {
-    font-size: 3.5rem;
-    margin-bottom: var(--spacing-md);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 .hero p {
     font-size: 1.5rem;
-    margin-bottom: var(--spacing-lg);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 }
 
 .cta-buttons {
     display: flex;
-    gap: var(--spacing-md);
+    gap: 1rem;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 /* Featured Tours Section */
 .featured-tours {
-    padding: var(--spacing-xl) var(--spacing-md);
+    padding: 4rem 2rem;
     background-color: white;
+    margin: 3rem auto;
+    max-width: 1400px;
+    width: calc(100% - 4rem);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 50, 0.1);
+}
+
+.featured-tours h2 {
+    text-align: center;
+    color: #0a66c2;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
 }
 
 .tour-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
-    max-width: 1200px;
-    margin: 0 auto;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
 }
 
 .tour-card {
-    border-radius: var(--border-radius);
+    background: linear-gradient(145deg, #e6f0ff, #ffffff);
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 12px rgba(0, 0, 100, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.tour-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 150, 0.2);
 }
 
 .tour-card img {
@@ -82,38 +105,54 @@
     object-fit: cover;
 }
 
+.tour-card h3 {
+    padding: 1rem;
+    color: #004aad;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
 .tour-card-content {
-    padding: var(--spacing-md);
+    padding: 1rem;
 }
 
 /* Equipment Preview Section */
 .equipment-preview {
-    padding: var(--spacing-xl) var(--spacing-md);
-    background: linear-gradient(to bottom, #e6f7ff, #cce5ff); /* Add blue gradient background */
-    border-radius: 15px; /* Add rounded corners */
-    box-shadow: 0 6px 12px rgba(0, 0, 100, 0.1); /* Add subtle shadow */
-    padding: 20px; /* Add padding for better spacing */
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #e6f7ff, #cce5ff);
+    margin: 3rem auto;
+    max-width: 1400px;
+    width: calc(100% - 4rem);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 50, 0.1);
+}
+
+.equipment-preview h2 {
+    text-align: center;
+    color: #0a66c2;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
 }
 
 .equipment-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--spacing-lg);
-    max-width: 1200px;
-    margin: 0 auto;
+    gap: 2rem;
+    padding: 1rem;
 }
 
 .equipment-card {
-    background: linear-gradient(145deg, #cce5ff, #e6f7ff); /* Add blue gradient to cards */
-    border-radius: 10px; /* Add rounded corners */
+    background: linear-gradient(145deg, #ffffff, #f0f8ff);
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 100, 0.1); /* Add shadow for depth */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+    box-shadow: 0 4px 12px rgba(0, 0, 100, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 .equipment-card:hover {
-    transform: translateY(-5px); /* Lift on hover */
-    box-shadow: 0 8px 16px rgba(0, 0, 150, 0.2); /* Enhance shadow on hover */
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 150, 0.25);
 }
 
 .equipment-card img {
@@ -122,59 +161,129 @@
     object-fit: cover;
 }
 
+.equipment-card h3 {
+    padding: 1rem;
+    color: #004aad;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
 .equipment-card-content {
-    padding: var(--spacing-md);
+    padding: 1rem;
 }
 
 /* Testimonials Section */
 .testimonials {
-    padding: var(--spacing-xl) var(--spacing-md);
+    padding: 4rem 2rem;
     background-color: white;
     text-align: center;
+    margin: 3rem auto;
+    max-width: 1400px;
+    width: calc(100% - 4rem);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 50, 0.1);
+}
+
+.testimonials h2 {
+    text-align: center;
+    color: #0a66c2;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
 }
 
 .testimonials-slider {
     max-width: 800px;
     margin: 0 auto;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    border-radius: 12px;
+    background: linear-gradient(120deg, #e1f0ff, #ffffff);
+    padding: 3rem 2rem;
+    min-height: 150px;
+}
+
+.testimonial {
+    min-width: 100%;
+    text-align: center;
+    transition: transform 0.5s ease-in-out;
+    color: #0a1a3b;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.testimonial p {
+    font-style: italic;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.testimonial strong {
+    color: #0066cc;
+    font-size: 1.1rem;
 }
 
 .testimonial-card {
-    padding: var(--spacing-lg);
-    margin: var(--spacing-md);
-    background-color: var(--color-background);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
+    padding: 2rem;
+    margin: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .testimonial-text {
     font-style: italic;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 1rem;
 }
 
 .testimonial-author {
     font-weight: bold;
-    color: var(--color-primary);
+    color: #0066cc;
 }
 
 /* Location Section */
 .location-highlight {
-    padding: var(--spacing-xl) var(--spacing-md);
-    background-color: var(--color-background);
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #f0f8ff, #e6f0ff);
+    margin: 3rem auto;
+    max-width: 1400px;
+    width: calc(100% - 4rem);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 50, 0.1);
+}
+
+.location-highlight h2 {
+    text-align: center;
+    color: #0a66c2;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
 }
 
 .location-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-lg);
-    max-width: 1200px;
-    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .map-container {
+    flex: 1 1 60%;
+    min-width: 300px;
     height: 400px;
-    background-color: #e0e0e0;
-    border-radius: var(--border-radius);
+    background-color: #cce5ff;
+    border-radius: 14px;
     overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 100, 0.15);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
 .map-placeholder {
@@ -184,20 +293,57 @@
     align-items: center;
     justify-content: center;
     background-color: #f0f0f0;
-    color: var(--color-text);
+    color: #333;
 }
 
 .location-info {
-    padding: var(--spacing-lg);
-    background-color: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
+    flex: 1 1 35%;
+    min-width: 280px;
+    padding: 2rem;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 100, 0.1);
+}
+
+.location-info h3 {
+    color: #0a66c2;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.location-info p {
+    margin-bottom: 0.75rem;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.location-info .cta-button {
+    margin-top: 1.5rem;
+    display: inline-block;
+    background: #0a66c2;
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.location-info .cta-button:hover {
+    background: #004aad;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 150, 0.3);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .hero {
+        margin-left: 0;
+        width: 100%;
+    }
+
     .hero h1 {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
     }
 
     .hero p {
@@ -206,23 +352,88 @@
 
     .cta-buttons {
         flex-direction: column;
+        gap: 1rem;
+    }
+
+    .featured-tours h2,
+    .equipment-preview h2,
+    .testimonials h2,
+    .location-highlight h2 {
+        font-size: 2rem;
+    }
+
+    .tour-grid,
+    .equipment-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
     .location-content {
-        grid-template-columns: 1fr;
+        flex-direction: column;
     }
 
     .map-container {
         height: 300px;
+        flex: 1 1 100%;
+    }
+
+    .location-info {
+        flex: 1 1 100%;
+    }
+
+    .featured-tours,
+    .equipment-preview,
+    .testimonials,
+    .location-highlight {
+        padding: 2.5rem 1rem;
+        margin: 1.5rem 0.5rem;
+        width: calc(100% - 1rem);
+        border-radius: 12px;
     }
 }
 
 @media (max-width: 480px) {
+    .hero {
+        margin-left: 0;
+        width: 100%;
+    }
+
     .hero h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     .hero p {
         font-size: 1rem;
+    }
+
+    .hero-content {
+        padding: 1.5rem;
+    }
+
+    .featured-tours h2,
+    .equipment-preview h2,
+    .testimonials h2,
+    .location-highlight h2 {
+        font-size: 1.6rem;
+    }
+
+    .featured-tours,
+    .equipment-preview,
+    .testimonials,
+    .location-highlight {
+        padding: 2rem 1rem;
+        margin: 1rem 0.25rem;
+        width: calc(100% - 0.5rem);
+    }
+
+    .tour-grid,
+    .equipment-grid {
+        padding: 0.5rem;
+        gap: 1rem;
+    }
+
+    .cta-button {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
     }
 }

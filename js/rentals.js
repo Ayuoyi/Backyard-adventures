@@ -69,7 +69,7 @@ function createDetailedEquipmentCard(rental) {
     return card;
 }
 
-// Get equipment availability status
+// Get equipment availability status gets the equipments more viable for the guest users 
 function getEquipmentAvailability(rental) {
     const reservations = BA.storage.load(BA.STORAGE_KEYS.RESERVATIONS) || [];
     const today = new Date().toISOString().split('T')[0];

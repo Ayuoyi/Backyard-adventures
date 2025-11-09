@@ -39,7 +39,23 @@ body {
     font-family: var(--font-primary);
     line-height: 1.6;
     color: var(--color-text);
-    background-color: var(--color-background);
+    background: linear-gradient(to bottom, #f3f8fc, #e6f0ff);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+html {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+main {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 /* Typography */
@@ -58,9 +74,9 @@ h6 { font-size: 1rem; }
 
 /* Navigation */
 .main-nav {
-    background-color: var(--color-primary); /* Ocean Blue */
-    padding: var(--spacing-md);
-    box-shadow: var(--shadow-sm);
+    background: linear-gradient(135deg, #0066cc, #004aad);
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -68,34 +84,45 @@ h6 { font-size: 1rem; }
     width: 100%;
     top: 0;
     z-index: 1000;
+    box-sizing: border-box;
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: bold;
     color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .nav-links {
     display: flex;
     list-style: none;
-    gap: var(--spacing-md);
+    gap: 1.5rem;
+    align-items: center;
 }
 
 .nav-links a {
     text-decoration: none;
     color: white;
-    padding: var(--spacing-sm);
-    transition: color 0.3s ease;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    font-weight: 500;
 }
 
 .nav-links a:hover {
-    color: #003366; /* Dark Blue on hover */
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 .nav-links .active {
-    color: #003366;
+    background-color: rgba(255, 255, 255, 0.3);
     font-weight: bold;
+}
+
+main {
+    margin-top: 0;
+    padding-top: 0;
 }
 
 /* Buttons */
@@ -165,10 +192,11 @@ input, select, textarea {
 
 /* Footer */
 footer {
-    background-color: var(--color-primary);
+    background: linear-gradient(135deg, #004aad, #0066cc);
     color: white;
-    padding: var(--spacing-xl) var(--spacing-md);
-    margin-top: var(--spacing-xl);
+    padding: 3rem 2rem;
+    margin-top: 4rem;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .footer-content {
@@ -206,16 +234,17 @@ footer {
     background: none;
     border: none;
     cursor: pointer;
-    padding: var(--spacing-sm);
+    padding: 0.5rem;
 }
 
 .mobile-menu-toggle span {
     display: block;
     width: 25px;
     height: 3px;
-    background-color: var(--color-primary);
+    background-color: white;
     margin: 5px 0;
     transition: transform 0.3s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive Design */
@@ -224,16 +253,38 @@ footer {
         display: block;
     }
 
+    .main-nav {
+        padding: 1rem;
+    }
+
+    .logo {
+        font-size: 1.3rem;
+    }
+
     .nav-links {
         display: none;
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
-        background: white;
+        background: linear-gradient(135deg, #0066cc, #004aad);
         flex-direction: column;
-        padding: var(--spacing-md);
-        box-shadow: var(--shadow-md);
+        padding: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        gap: 0.5rem;
+    }
+
+    .nav-links a {
+        padding: 0.75rem 1rem;
+        border-radius: 4px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        font-weight: 500;
+    }
+
+    .nav-links a:hover,
+    .nav-links .active {
+        background-color: rgba(255, 255, 255, 0.25);
     }
 
     .nav-links.active {
