@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backyard Adventures - Jacksonville Water Sports & Tours</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+    <style>
+        /* HERO SECTION */
+        .hero {
+            position: relative;
+            background: url('assets/hero-sunset.jpg') center/cover no-repeat;
+            height: 100vh; /* Full viewport height */
+            width: 100vw; /* Full viewport width */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 800px;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .cta-button {
+            padding: 0.75rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .cta-button.primary {
+            background: linear-gradient(90deg, #007bff, #00b4ff);
+            color: #fff;
+        }
+
+        .cta-button.primary:hover {
+            background: linear-gradient(90deg, #0060d6, #0090e0);
+        }
+
+        .cta-button.secondary {
+            background: #fff;
+            color: #007bff;
+            border: 2px solid #007bff;
+        }
+
+        .cta-button.secondary:hover {
+            background: #007bff;
+            color: #fff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f3f8fc;
+            color: #1a1a1a;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #0a66c2;
+            margin-bottom: 1rem;
+        }
+
+        /* Section Styling */
+        section {
+            margin: 60px auto;
+            max-width: 1100px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 50, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(0, 0, 100, 0.15);
+        }
+
+        /* Grid Layouts */
+        .tour-grid, .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .tour-card, .equipment-card {
+            background: linear-gradient(145deg, #e6f0ff, #ffffff);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 100, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tour-card:hover, .equipment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 150, 0.2);
+        }
+
+        .tour-card img, .equipment-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
+        }
+
+        .tour-card h3, .equipment-card h3 {
+            padding: 10px;
+            color: #004aad;
+        }
+
+        /* Testimonials Slider */
+        .testimonials-slider {
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            border-radius: 12px;
+            background: linear-gradient(120deg, #e1f0ff, #ffffff);
+            padding: 20px;
+        }
+
+        .testimonial {
+            min-width: 100%;
+            text-align: center;
+            transition: transform 0.5s ease-in-out;
+            color: #0a1a3b;
+        }
+
+        .testimonial p {
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        /* Location Section */
+        .location-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .map-container {
+            flex: 1 1 55%;
+            height: 300px;
+            background: #cce5ff;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .location-info {
+            flex: 1 1 35%;
+            padding: 20px;
+            background: #e6f0ff;
+            border-radius: 14px;
+            box-shadow: 0 4px 10px rgba(0, 0, 100, 0.1);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #0a66c2;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: background 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #004aad;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">Backyard Adventures</div>
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="tours.html">Guided Tours</a></li>
+                <li><a href="rentals.html">Equipment Rentals</a></li>
+                <li><a href="instruction.html">Instructions</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li>
+                    <button id="loginBtn" class="cta-button primary" style="font-size:1.1rem;padding:0.75rem 2rem;">Login</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="loginModal" class="modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;">
+        <div class="modal-content" style="background:white;padding:2rem;border-radius:8px;max-width:350px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.2);position:relative;">
+            <button id="closeModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5rem;cursor:pointer;">&times;</button>
+            <h2 style="color:#0066cc;text-align:center;margin-bottom:1rem;">Login</h2>
+            <form id="loginForm">
+                <label for="role">Login as:</label>
+                <select id="role" name="role" required style="width:100%;margin-bottom:1rem;padding:0.5rem;">
+                    <option value="client">Client</option>
+                    <option value="employee">Employee</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required style="width:100%;margin-bottom:1rem;padding:0.5rem;">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required style="width:100%;margin-bottom:1rem;padding:0.5rem;">
+                <button type="submit" class="cta-button primary" style="width:100%;margin-bottom:1rem;">Login</button>
+            </form>
+            <div style="text-align:center;">
+                <span>Don't have an account?</span>
+                <a href="signup.html" class="cta-button secondary" style="margin-top:0.5rem;display:inline-block;">Sign Up</a>
+            </div>
+        </div>
+    </div>
+    <script>
+    // Modal logic
+    const loginBtn = document.getElementById('loginBtn');
+    const loginModal = document.getElementById('loginModal');
+    const closeModal = document.getElementById('closeModal');
+    loginBtn.onclick = () => loginModal.style.display = 'flex';
+    closeModal.onclick = () => loginModal.style.display = 'none';
+    window.onclick = (e) => {
+        if (e.target === loginModal) loginModal.style.display = 'none';
+    };
+    document.getElementById('loginForm').onsubmit = function(e) {
+        e.preventDefault();
+        // Add login logic here
+        alert('Login attempted as ' + document.getElementById('role').value);
+        loginModal.style.display = 'none';
+    };
+    </script>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Discover Jacksonville's Waterways</h1>
+                <p>Join us for guided tours, water sports equipment rentals, and unforgettable adventures</p>
+                <div class="cta-buttons">
+                    <a href="tours.html" class="cta-button primary">Book a Tour</a>
+                    <a href="rentals.html" class="cta-button secondary">Rent Equipment</a>
+                </div>
+            </div>
+        </section>
+
+       <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Sections</title>
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #f3f8fc;
+        color: #1a1a1a;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        text-align: center;
+        color: #0a66c2;
+        margin-bottom: 1rem;
+    }
+
+    /* Section Styling */
+    section {
+        margin: 60px auto;
+        max-width: 1100px;
+        padding: 20px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 50, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    section:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(0, 0, 100, 0.15);
+    }
+
+    /* Grid Layouts */
+    .tour-grid, .equipment-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 10px;
+    }
+
+    .tour-card, .equipment-card {
+        background: linear-gradient(145deg, #e6f0ff, #ffffff);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 100, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+
+    .tour-card:hover, .equipment-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 150, 0.2);
+    }
+
+    .tour-card img, .equipment-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-top-left-radius: 14px;
+        border-top-right-radius: 14px;
+    }
+
+    .tour-card h3, .equipment-card h3 {
+        padding: 10px;
+        color: #004aad;
+    }
+
+    /* Testimonials Slider */
+    .testimonials-slider {
+        display: flex;
+        overflow: hidden;
+        position: relative;
+        border-radius: 12px;
+        background: linear-gradient(120deg, #e1f0ff, #ffffff);
+        padding: 20px;
+    }
+
+    .testimonial {
+        min-width: 100%;
+        text-align: center;
+        transition: transform 0.5s ease-in-out;
+        color: #0a1a3b;
+    }
+
+    .testimonial p {
+        font-style: italic;
+        margin-bottom: 10px;
+    }
+
+    /* Location Section */
+    .location-content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .map-container {
+        flex: 1 1 55%;
+        height: 300px;
+        background: #cce5ff;
+        border-radius: 14px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+
+    .location-info {
+        flex: 1 1 35%;
+        padding: 20px;
+        background: #e6f0ff;
+        border-radius: 14px;
+        box-shadow: 0 4px 10px rgba(0, 0, 100, 0.1);
+    }
+
+    .cta-button {
+        display: inline-block;
+        background: #0a66c2;
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        transition: background 0.3s;
+    }
+
+    .cta-button:hover {
+        background: #004aad;
+    }
+</style>
+</head>
+<body>
+
+<section class="featured-tours">
+    <h2>Featured Tours</h2>
+    <div class="tour-grid"></div>
+</section>
+
+<section class="equipment-preview">
+    <h2>Available Equipment</h2>
+    <div class="equipment-grid"></div>
+</section>
+
+<section class="testimonials">
+    <h2>What Our Adventurers Say</h2>
+    <div class="testimonials-slider"></div>
+</section>
+
+<section class="location-highlight">
+    <h2>Our Marina Location</h2>
+    <div class="location-content">
+        <div class="map-container">
+            <iframe 
+                id="map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.528165471909!2d34.781203573970!3d-0.09317863549453272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182aaa8f20b8fbb7%3A0xb1d4d3a6c67df20!2sJacksonville%20Marina!5e0!3m2!1sen!2ske!4v1699536757273!5m2!1sen!2ske" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
+        <div class="location-info">
+            <h3>Find Us Here</h3>
+            <p>Located at Jacksonville Marina</p>
+            <p>123 Harbor Drive</p>
+            <p>Jacksonville, FL 32202</p>
+            <a href="contact.html" class="cta-button">Get Directions</a>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Populate Tours
+    const tours = [
+        { title: "Sunset Kayak Tour", image: "assets/kayak.jpg" },
+        { title: "Dolphin Watching Cruise", image: "assets/dolphin.jpg" },
+        { title: "Mangrove Eco Tour", image: "assets/mangrove.jpg" }
+    ];
+    const tourGrid = document.querySelector(".tour-grid");
+    tours.forEach(t => {
+        const card = document.createElement("div");
+        card.className = "tour-card";
+        card.innerHTML = `<img src="${t.image}" alt="${t.title}"><h3>${t.title}</h3>`;
+        tourGrid.appendChild(card);
+    });
+
+    // Populate Equipment
+    const equipment = [
+        { title: "Jet Ski", image: "assets/jetski.jpg" },
+        { title: "Paddle Board", image: "assets/paddle.jpg" },
+        { title: "Life Jacket", image: "assets/jacket.jpg" }
+    ];
+    const equipmentGrid = document.querySelector(".equipment-grid");
+    equipment.forEach(e => {
+        const card = document.createElement("div");
+        card.className = "equipment-card";
+        card.innerHTML = `<img src="${e.image}" alt="${e.title}"><h3>${e.title}</h3>`;
+        equipmentGrid.appendChild(card);
+    });
+
+    // Testimonials Slider
+    const testimonials = [
+        { quote: "An unforgettable experience!", author: "Sarah L." },
+        { quote: "The staff were super friendly and helpful.", author: "Mark W." },
+        { quote: "Beautiful location and amazing tours!", author: "Anna K." }
+    ];
+
+    const slider = document.querySelector(".testimonials-slider");
+    testimonials.forEach(t => {
+        const div = document.createElement("div");
+        div.className = "testimonial";
+        div.innerHTML = `<p>"${t.quote}"</p><strong>- ${t.author}</strong>`;
+        slider.appendChild(div);
+    });
+
+    let index = 0;
+    setInterval(() => {
+        index = (index + 1) % testimonials.length;
+        slider.style.transform = `translateX(-${index * 100}%)`;
+    }, 4000);
+</script>
+
+</body>
+</html>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Phone: (555) 123-4567</p>
+                <p>Email: info@backyardadventures.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Business Hours</h3>
+                <p>Mon-Fri: 8:00 AM - 6:00 PM</p>
+                <p>Sat-Sun: 7:00 AM - 7:00 PM</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="tours.html">Tours</a></li>
+                    <li><a href="rentals.html">Rentals</a></li>
+                    <li><a href="instruction.html">Instructions</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Backyard Adventures. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>

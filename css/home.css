@@ -1,0 +1,228 @@
+/* Hero Section */
+.hero {
+    width: 100vw; /* Ensure the section spans the full width of the viewport */
+    height: 100vh; /* Make the hero section cover the entire screen */
+    min-height: 600px;
+    margin: 0; /* Remove any margin */
+    padding: 0; /* Remove any padding */
+    /* Background image is set dynamically by JS for slideshow effect */
+    background-size: cover; /* Ensure the background image covers the entire area */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    border-radius: 0; /* Remove border radius */
+    box-sizing: border-box; /* Include padding and border in the element's width and height */
+    overflow: hidden; /* Prevent any content overflow */
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* Simple semi-transparent overlay */
+    pointer-events: none;
+}
+
+.hero-content {
+    max-width: 800px;
+    padding: var(--spacing-md);
+    position: relative;
+    z-index: 1; /* Place above the overlay */
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: var(--spacing-md);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero p {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.cta-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+}
+
+/* Featured Tours Section */
+.featured-tours {
+    padding: var(--spacing-xl) var(--spacing-md);
+    background-color: white;
+}
+
+.tour-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tour-card {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.tour-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.tour-card-content {
+    padding: var(--spacing-md);
+}
+
+/* Equipment Preview Section */
+.equipment-preview {
+    padding: var(--spacing-xl) var(--spacing-md);
+    background: linear-gradient(to bottom, #e6f7ff, #cce5ff); /* Add blue gradient background */
+    border-radius: 15px; /* Add rounded corners */
+    box-shadow: 0 6px 12px rgba(0, 0, 100, 0.1); /* Add subtle shadow */
+    padding: 20px; /* Add padding for better spacing */
+}
+
+.equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.equipment-card {
+    background: linear-gradient(145deg, #cce5ff, #e6f7ff); /* Add blue gradient to cards */
+    border-radius: 10px; /* Add rounded corners */
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 100, 0.1); /* Add shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.equipment-card:hover {
+    transform: translateY(-5px); /* Lift on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 150, 0.2); /* Enhance shadow on hover */
+}
+
+.equipment-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.equipment-card-content {
+    padding: var(--spacing-md);
+}
+
+/* Testimonials Section */
+.testimonials {
+    padding: var(--spacing-xl) var(--spacing-md);
+    background-color: white;
+    text-align: center;
+}
+
+.testimonials-slider {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.testimonial-card {
+    padding: var(--spacing-lg);
+    margin: var(--spacing-md);
+    background-color: var(--color-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.testimonial-text {
+    font-style: italic;
+    margin-bottom: var(--spacing-md);
+}
+
+.testimonial-author {
+    font-weight: bold;
+    color: var(--color-primary);
+}
+
+/* Location Section */
+.location-highlight {
+    padding: var(--spacing-xl) var(--spacing-md);
+    background-color: var(--color-background);
+}
+
+.location-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.map-container {
+    height: 400px;
+    background-color: #e0e0e0;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.map-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    color: var(--color-text);
+}
+
+.location-info {
+    padding: var(--spacing-lg);
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+    }
+
+    .location-content {
+        grid-template-columns: 1fr;
+    }
+
+    .map-container {
+        height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+}

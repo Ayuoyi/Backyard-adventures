@@ -1,0 +1,243 @@
+/* Tours Page Styles */
+
+/* Page Header */
+.page-header {
+    height: 50vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('../assets/tours-header.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-top: 60px; /* Account for fixed header */
+}
+
+.header-content {
+    max-width: 800px;
+    padding: var(--spacing-md);
+}
+
+.header-content h1 {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Tour Filters */
+.tour-filters {
+    background-color: white;
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 60px;
+    z-index: 10;
+}
+
+.filter-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+}
+
+.filter-container select {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    background-color: white;
+    min-width: 150px;
+}
+
+/* Tours Grid */
+.tours-grid {
+    max-width: 1200px;
+    margin: var(--spacing-xl) auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md);
+}
+
+.tour-card {
+    background: linear-gradient(90deg, #e3f2fd 0%, #fff 100%);
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+    border-left: 6px solid #1976d2;
+    border-radius: 12px;
+    overflow: hidden;
+    padding-bottom: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.tour-card:hover {
+    transform: translateY(-5px);
+}
+
+.tour-card img {
+    display: block;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.tour-card-content {
+    padding: var(--spacing-md);
+}
+
+.tour-card-content h2 {
+    color: #1976d2;
+    margin-bottom: 0.5rem;
+}
+
+.tour-card-content h3 {
+    color: #333;
+    margin-top: 0;
+}
+
+.tour-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-sm);
+    margin: var(--spacing-md) 0;
+}
+
+.tour-info span {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: 0.9rem;
+    color: var(--color-primary);
+}
+
+/* Booking Modal */
+.booking-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: white;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    right: var(--spacing-md);
+    top: var(--spacing-md);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.booking-summary {
+    background-color: var(--color-background);
+    padding: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+    border-radius: var(--border-radius);
+}
+
+.total-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: right;
+    margin-top: var(--spacing-md);
+}
+
+/* Tour Safety Section */
+.tour-safety {
+    background-color: var(--color-background);
+    padding: var(--spacing-xl) var(--spacing-md);
+    margin-top: var(--spacing-xl);
+}
+
+.safety-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.safety-item {
+    background-color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.safety-item h3 {
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.safety-item ul {
+    list-style: none;
+}
+
+.safety-item ul li {
+    margin-bottom: var(--spacing-sm);
+    padding-left: var(--spacing-md);
+    position: relative;
+}
+
+.safety-item ul li::before {
+    content: "•";
+    color: var(--color-primary);
+    position: absolute;
+    left: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .page-header {
+        height: 40vh;
+    }
+
+    .header-content h1 {
+        font-size: 2rem;
+    }
+
+    .filter-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .modal-content {
+        margin: 20px;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .tour-card {
+        transition: none;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .tour-filters,
+    .booking-modal {
+        display: none;
+    }
+
+    .tour-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}

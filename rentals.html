@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment Rentals - Backyard Adventures</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/rentals.css">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">Backyard Adventures</div>
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tours.html">Guided Tours</a></li>
+                <li><a href="rentals.html" class="active">Equipment Rentals</a></li>
+                <li><a href="instruction.html">Instructions</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="portal/login.html" class="cta-button">Customer Portal</a></li>
+            </ul>
+        </nav>
+    </header>
+
+   <main>
+  <!-- Hero Section -->
+  <section class="equipment-rentals-hero">
+    <div class="overlay"></div>
+    <div class="content">
+      <h1>Equipment Rentals</h1>
+      <p>Get the gear you need for your next adventure</p>
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <section class="rental-filters">
+    <div class="filter-container">
+      <select id="equipment-type-filter">
+        <option value="">Equipment Type</option>
+        <option value="kayak">Kayaks</option>
+        <option value="paddleboard">Paddleboards</option>
+        <option value="canoe">Canoes</option>
+      </select>
+      <select id="duration-filter">
+        <option value="">Rental Duration</option>
+        <option value="hourly">Hourly</option>
+        <option value="daily">Full Day</option>
+      </select>
+      <select id="price-filter">
+        <option value="">Price Range</option>
+        <option value="0-25">Under KSh 25/hour</option>
+        <option value="25-50">KSh 25 - KSh 50/hour</option>
+        <option value="50+">KSh 50+/hour</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- Equipment Cards -->
+  <section class="equipment-grid">
+    <div class="equipment-card">
+      <img src="assets/kayak.jpg" alt="Kayak">
+      <div class="equipment-info">
+        <h3>Kayak</h3>
+        <p>Explore the calm marina waters with our premium kayaks.</p>
+        <button class="cta-button">Rent Now</button>
+      </div>
+    </div>
+
+    <div class="equipment-card">
+      <img src="assets/paddle.jpg" alt="Paddleboard">
+      <div class="equipment-info">
+        <h3>Paddleboard</h3>
+        <p>Enjoy a smooth paddle session under the Florida sun.</p>
+        <button class="cta-button">Rent Now</button>
+      </div>
+    </div>
+
+    <div class="equipment-card">
+      <img src="assets/jetski.jpg" alt="Jet Ski">
+      <div class="equipment-info">
+        <h3>Jet Ski</h3>
+        <p>Feel the adrenaline rush across the waves with our jet skis.</p>
+        <button class="cta-button">Rent Now</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rental Info Section -->
+  <section class="rental-info">
+    <h2>Rental Information</h2>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Rental Policies</h3>
+        <ul>
+          <li>Valid ID and credit card required</li>
+          <li>Age requirements vary by equipment</li>
+          <li>24-hour cancellation policy</li>
+          <li>Weather-related rescheduling available</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>What's Included</h3>
+        <ul>
+          <li>Safety gear (life jackets, etc.)</li>
+          <li>Basic instruction if needed</li>
+          <li>Equipment insurance</li>
+          <li>Storage lockers</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Requirements</h3>
+        <ul>
+          <li>Signed waiver form</li>
+          <li>Basic swimming ability</li>
+          <li>Appropriate attire</li>
+          <li>Understanding of safety rules</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Weather Advisory -->
+  <section class="weather-advisory">
+    <h2>Weather Advisory</h2>
+    <div class="weather-content">
+      <p>
+        Our rental operations are weather-dependent. In case of severe
+        conditions, we may reschedule your rental. Always check the latest
+        weather forecast before booking.
+      </p>
+      <div id="weather-widget"></div>
+    </div>
+  </section>
+</main>
+
+<style>
+/* GENERAL */
+main {
+  font-family: 'Poppins', sans-serif;
+  background: #f3f8fc;
+  color: #1a1a1a;
+  margin: 0;
+  padding: 0;
+}
+
+/* HERO SECTION */
+.equipment-rentals-hero {
+  position: relative;
+  background: url('assets/hero-bg.jpg') center/cover no-repeat;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 0 40px 40px;
+  overflow: hidden;
+}
+
+.equipment-rentals-hero .overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 70, 150, 0.5);
+}
+
+.equipment-rentals-hero .content {
+  position: relative;
+  text-align: center;
+  color: #fff;
+}
+
+.equipment-rentals-hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+}
+
+.equipment-rentals-hero p {
+  font-size: 1.2rem;
+}
+
+/* FILTERS */
+.rental-filters {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 50, 150, 0.1);
+  margin: 40px auto;
+  max-width: 900px;
+  padding: 20px;
+}
+
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.filter-container select {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid #cfdff6;
+  font-size: 1rem;
+  background: #eaf3ff;
+  color: #003c8f;
+  transition: all 0.3s;
+}
+
+.filter-container select:hover {
+  border-color: #007bff;
+}
+
+/* EQUIPMENT GRID */
+.equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.equipment-card {
+  background: linear-gradient(145deg, #ffffff, #eaf4ff);
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(0, 60, 150, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.equipment-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(0, 60, 180, 0.2);
+}
+
+.equipment-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.equipment-info {
+  padding: 15px 20px;
+  text-align: center;
+}
+
+.equipment-info h3 {
+  color: #004aad;
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
+
+.equipment-info p {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+/* CTA BUTTON */
+.cta-button {
+  background: linear-gradient(90deg, #007bff, #00b4ff);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.cta-button:hover {
+  background: linear-gradient(90deg, #0060d6, #0090e0);
+}
+
+/* INFO SECTION */
+.rental-info {
+  max-width: 1100px;
+  margin: 60px auto;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.rental-info h2 {
+  color: #004aad;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.info-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 60, 150, 0.1);
+  padding: 20px;
+  text-align: left;
+}
+
+.info-card h3 {
+  color: #004aad;
+  margin-bottom: 10px;
+}
+
+.info-card ul {
+  list-style: none;
+  padding: 0;
+  color: #333;
+}
+
+.info-card li {
+  margin: 6px 0;
+}
+
+/* WEATHER SECTION */
+.weather-advisory {
+  background: linear-gradient(135deg, #dff1ff, #ffffff);
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(0, 60, 150, 0.1);
+  max-width: 1000px;
+  margin: 60px auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.weather-advisory h2 {
+  color: #004aad;
+  margin-bottom: 15px;
+}
+
+.weather-content p {
+  max-width: 700px;
+  margin: 0 auto 20px;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .equipment-rentals-hero h1 { font-size: 2rem; }
+  .equipment-rentals-hero p { font-size: 1rem; }
+  .filter-container { flex-direction: column; align-items: center; }
+  .equipment-info p { font-size: 0.9rem; }
+}
+</style>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Phone: (555) 123-4567</p>
+                <p>Email: info@backyardadventures.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Business Hours</h3>
+                <p>Mon-Fri: 8:00 AM - 6:00 PM</p>
+                <p>Sat-Sun: 7:00 AM - 7:00 PM</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="tours.html">Tours</a></li>
+                    <li><a href="rentals.html">Rentals</a></li>
+                    <li><a href="instruction.html">Instructions</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Backyard Adventures. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/rentals.js"></script>
+    <script>
+    // Update all price displays to Kenyan Shillings
+    function updateCurrencyToKES() {
+      document.querySelectorAll('.total-price, .price, #total-price').forEach(function(el) {
+        el.innerHTML = el.innerHTML.replace(/\$([0-9,.]+)/g, 'KSh $1');
+      });
+    }
+    document.addEventListener('DOMContentLoaded', updateCurrencyToKES);
+    </script>
+</body>
+</html>

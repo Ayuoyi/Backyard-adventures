@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guided Tours - Backyard Adventures</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tours.css">
+    <style>
+.safety-item {
+  background: linear-gradient(90deg, #e3f2fd 0%, #fff 100%);
+  border-left: 6px solid #1976d2;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  margin-bottom: 2rem;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+}
+.safety-item h3 {
+  color: #1976d2;
+  margin-bottom: 1rem;
+}
+.safety-item ul li {
+  color: #1976d2;
+}
+</style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">Backyard Adventures</div>
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tours.html" class="active">Guided Tours</a></li>
+                <li><a href="rentals.html">Equipment Rentals</a></li>
+                <li><a href="instruction.html">Instructions</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="portal/login.html" class="cta-button">Customer Portal</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="guided-tours-hero" style="position:relative;width:100%;height:400px;display:flex;align-items:center;justify-content:center;background:url('assets/tour.jpg') no-repeat center center;background-size:cover;">
+          <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,64,0.15);"></div>
+          <div style="position:relative;z-index:1;text-align:center;color:white;padding:2rem;max-width:700px;width:100%;text-shadow:0 2px 8px rgba(0,0,0,0.5);">
+            <h1 style="font-size:2.5rem;margin-bottom:1rem;">Guided Tours</h1>
+            <p style="font-size:1.3rem;">Explore Jacksonville's waterways with our experienced guides</p>
+          </div>
+        </section>
+
+        <section class="tour-filters">
+            <div class="filter-container">
+                <select id="duration-filter">
+                    <option value="">Duration</option>
+                    <option value="2">2 Hours</option>
+                    <option value="3">3 Hours</option>
+                    <option value="4">4+ Hours</option>
+                </select>
+                <select id="difficulty-filter">
+                    <option value="">Difficulty</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+                <select id="price-filter">
+                    <option value="">Price Range</option>
+                    <option value="0-50">Under $50</option>
+                    <option value="50-100">$50 - $100</option>
+                    <option value="100+">$100+</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="tours-grid">
+            <!-- Tours will be populated by JavaScript -->
+        </section>
+
+        <section class="booking-modal" id="booking-modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Book Your Tour</h2>
+                <form id="booking-form">
+                    <div class="form-group">
+                        <label for="tour-date">Select Date</label>
+                        <input type="date" id="tour-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tour-time">Select Time</label>
+                        <select id="tour-time" required>
+                            <!-- Times will be populated based on availability -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="group-size">Number of Participants</label>
+                        <input type="number" id="group-size" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-name">Full Name</label>
+                        <input type="text" id="customer-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-email">Email</label>
+                        <input type="email" id="customer-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-phone">Phone</label>
+                        <input type="tel" id="customer-phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="special-requests">Special Requests</label>
+                        <textarea id="special-requests"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="hear-about">How did you hear about us?</label>
+                        <select id="hear-about" required>
+                            <option value="">Please select...</option>
+                            <option value="search">Search Engine</option>
+                            <option value="social">Social Media</option>
+                            <option value="friend">Friend/Family</option>
+                            <option value="magazine">Local Magazine</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="booking-summary">
+                        <h3>Booking Summary</h3>
+                        <div id="booking-details"></div>
+                        <div class="total-price">
+                            Total: <span id="total-price">$0.00</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="cta-button primary">Confirm Booking</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="tour-safety" style="background-color: var(--color-background); padding: var(--spacing-xl) var(--spacing-md); margin-top: var(--spacing-xl); text-align:center;">
+            <h2 style="color:var(--color-primary);font-size:2.2rem;margin-bottom:1.5rem;text-shadow:0 2px 8px rgba(0,0,0,0.1);">Safety Information</h2>
+            <div class="safety-content" style="display:inline-block;text-align:left;max-width:700px;margin:0 auto;background:white;padding:2rem 2.5rem;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.08);">
+                <div class="safety-item" style="margin-bottom:2rem;">
+                    <h3 style="color:var(--color-primary);margin-bottom:1rem;">Requirements</h3>
+                    <ul>
+                        <li>Basic swimming ability required for all water tours</li>
+                        <li>Minimum age requirements vary by tour</li>
+                        <li>Participants must be in good physical condition</li>
+                    </ul>
+                </div>
+                <div class="safety-item" style="margin-bottom:2rem;">
+                    <h3 style="color:var(--color-primary);margin-bottom:1rem;">What's Included</h3>
+                    <ul>
+                        <li>Professional guide</li>
+                        <li>Safety equipment</li>
+                        <li>Basic instruction</li>
+                        <li>Water and snacks</li>
+                    </ul>
+                </div>
+                <div class="safety-item">
+                    <h3 style="color:var(--color-primary);margin-bottom:1rem;">What to Bring</h3>
+                    <ul>
+                        <li>Sunscreen and hat</li>
+                        <li>Water bottle</li>
+                        <li>Appropriate footwear</li>
+                        <li>Change of clothes</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Phone: (555) 123-4567</p>
+                <p>Email: info@backyardadventures.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Business Hours</h3>
+                <p>Mon-Fri: 8:00 AM - 6:00 PM</p>
+                <p>Sat-Sun: 7:00 AM - 7:00 PM</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="tours.html">Tours</a></li>
+                    <li><a href="rentals.html">Rentals</a></li>
+                    <li><a href="instruction.html">Instructions</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Backyard Adventures. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/tours.js"></script>
+    <script>
+    // Update all price displays to Kenyan Shillings
+    function updateCurrencyToKES() {
+      document.querySelectorAll('.total-price, .price, #total-price').forEach(function(el) {
+        el.innerHTML = el.innerHTML.replace(/\$([0-9,.]+)/g, 'KSh $1');
+      });
+    }
+    document.addEventListener('DOMContentLoaded', updateCurrencyToKES);
+    </script>
+</body>
+</html>
