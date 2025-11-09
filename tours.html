@@ -6,23 +6,10 @@
     <title>Guided Tours - Backyard Adventures</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/tours.css">
-    <style>
-.safety-item {
-  background: linear-gradient(90deg, #e3f2fd 0%, #fff 100%);
-  border-left: 6px solid #1976d2;
-  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
-  margin-bottom: 2rem;
-  padding: 1.5rem 2rem;
-  border-radius: 8px;
-}
-.safety-item h3 {
-  color: #1976d2;
-  margin-bottom: 1rem;
-}
-.safety-item ul li {
-  color: #1976d2;
-}
-</style>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -44,34 +31,69 @@
     </header>
 
     <main>
-        <section class="guided-tours-hero" style="position:relative;width:100%;height:400px;display:flex;align-items:center;justify-content:center;background:url('assets/tour.jpg') no-repeat center center;background-size:cover;">
-          <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,64,0.15);"></div>
-          <div style="position:relative;z-index:1;text-align:center;color:white;padding:2rem;max-width:700px;width:100%;text-shadow:0 2px 8px rgba(0,0,0,0.5);">
-            <h1 style="font-size:2.5rem;margin-bottom:1rem;">Guided Tours</h1>
-            <p style="font-size:1.3rem;">Explore Jacksonville's waterways with our experienced guides</p>
-          </div>
+        <!-- Hero Section -->
+        <section class="page-header">
+            <div class="header-overlay"></div>
+            <div class="header-content">
+                <div class="header-icon">
+                    <i class="fas fa-ship"></i>
+                </div>
+                <h1>Guided Tours</h1>
+                <p>Explore Jacksonville's waterways with our experienced guides</p>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-route"></i>
+                        <span>15+ Routes</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Flexible Times</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-star"></i>
+                        <span>Expert Guides</span>
+                    </div>
+                </div>
+            </div>
         </section>
 
+        <!-- Filters Section -->
         <section class="tour-filters">
+            <div class="section-header">
+                <h2>Find Your Perfect Adventure</h2>
+                <p class="section-subtitle">Filter tours by your preferences</p>
+            </div>
             <div class="filter-container">
-                <select id="duration-filter">
-                    <option value="">Duration</option>
-                    <option value="2">2 Hours</option>
-                    <option value="3">3 Hours</option>
-                    <option value="4">4+ Hours</option>
-                </select>
-                <select id="difficulty-filter">
-                    <option value="">Difficulty</option>
-                    <option value="beginner">Beginner</option>
-                    <option value="intermediate">Intermediate</option>
-                    <option value="advanced">Advanced</option>
-                </select>
-                <select id="price-filter">
-                    <option value="">Price Range</option>
-                    <option value="0-50">Under $50</option>
-                    <option value="50-100">$50 - $100</option>
-                    <option value="100+">$100+</option>
-                </select>
+                <div class="filter-item">
+                    <i class="far fa-clock"></i>
+                    <select id="duration-filter">
+                        <option value="">Duration</option>
+                        <option value="2">2 Hours</option>
+                        <option value="3">3 Hours</option>
+                        <option value="4">4+ Hours</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <i class="fas fa-signal"></i>
+                    <select id="difficulty-filter">
+                        <option value="">Difficulty</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+
+        <!-- Tours Grid -->
+        <section class="tours-section">
+            <div class="tours-grid" id="toursGrid">
+                <!-- Tours will be populated by JavaScript -->
+            </div>
+        </section>iv class="filter-item">
+                    <i class="fas fa-dollar-sign"></i>
+                    <select id="price-filter">
+                        <option value="">Price Range</option>
+                        <option value="0-50">Under $50</option>
+                        <option value="50-100">$50 - $100</option>
+                        <option value="100+">$100+</option>
+                    </select>
+                </div>
             </div>
         </section>
 
