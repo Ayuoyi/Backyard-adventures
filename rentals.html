@@ -267,17 +267,323 @@
         </div>
     </footer>
 
+    <!-- Supabase Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/supabase-auth.js"></script>
+    <script src="js/supabase-queries.js"></script>
+    
     <script src="js/data.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/rentals.js"></script>
+    
     <script>
-    // Update all price displays to Kenyan Shillings
-    function updateCurrencyToKES() {
-      document.querySelectorAll('.total-price, .price, #total-price').forEach(function(el) {
-        el.innerHTML = el.innerHTML.replace(/\$([0-9,.]+)/g, 'KSh $1');
-      });
+    // ===================================
+    // RENTALS PAGE - SUPABASE INTEGRATION
+    // ===================================
+    
+    let equipmentData = [];
+    let currentFilters = {
+        type: '',
+        duration: '',
+        price: ''
+    };
+
+    // Load equipment from Supabase
+    async function loadEquipmentFromDatabase() {
+        const result = await supabaseQueries.getAvailableEquipment();
+        
+        if (result.success && result.data.length > 0) {
+            equipmentData = result.data;
+            displayEquipment(equipmentData);
+        } else {
+            console.log('No equipment in database');
+        }
     }
-    document.addEventListener('DOMContentLoaded', updateCurrencyToKES);
+
+    // Display equipment in grid
+    function displayEquipment(equipment) {
+        const equipmentGrid = document.querySelector('.equipment-grid');
+        if (!equipmentGrid) return;
+
+        if (equipment.length === 0) {
+            equipmentGrid.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-search"></i>
+                    <p>No equipment found matching your criteria</p>
+                    <button onclick="clearEquipmentFilters()" class="btn-primary">Clear Filters</button>
+                </div>
+            `;
+            return;
+        }
+
+        equipmentGrid.innerHTML = equipment.map(item => `
+            <div class="equipment-card" data-equipment-id="${item.id}">
+                <div class="equipment-image">
+                    <img src="${item.image_url || 'assets/equipment-default.jpg'}" alt="${item.name}">
+                    ${item.badge ? `<span class="equipment-badge ${item.badge}">${item.badge}</span>` : ''}
+                </div>
+                <div class="equipment-info">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-${getEquipmentIcon(item.type)}"></i>
+                    </div>
+                    <h3>${item.name}</h3>
+                    <p>${item.description}</p>
+                    <div class="price-info">
+                        <div class="price">KSh ${item.hourly_rate}/hour</div>
+                        <div class="duration">KSh ${item.daily_rate}/day</div>
+                    </div>
+                    <button class="cta-button" onclick="rentEquipment('${item.id}', '${item.name}', ${item.hourly_rate}, ${item.daily_rate})">
+                        <i class="fas fa-shopping-cart"></i> Rent Now
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Get icon for equipment type
+    function getEquipmentIcon(type) {
+        const icons = {
+            'kayak': 'ship',
+            'jet-ski': 'water',
+            'snorkel-gear': 'swimmer',
+            'paddleboard': 'water',
+            'canoe': 'ship'
+        };
+        return icons[type] || 'water';
+    }
+
+    // Filter equipment
+    function filterEquipment() {
+        let filtered = [...equipmentData];
+
+        if (currentFilters.type) {
+            filtered = filtered.filter(item => 
+                item.type.toLowerCase() === currentFilters.type.toLowerCase()
+            );
+        }
+
+        if (currentFilters.price) {
+            filtered = filtered.filter(item => {
+                const rate = parseFloat(item.hourly_rate);
+                if (currentFilters.price === '0-25') return rate < 25;
+                if (currentFilters.price === '25-50') return rate >= 25 && rate <= 50;
+                if (currentFilters.price === '50+') return rate > 50;
+                return true;
+            });
+        }
+
+        displayEquipment(filtered);
+    }
+
+    // Clear filters
+    function clearEquipmentFilters() {
+        currentFilters = { type: '', duration: '', price: '' };
+        document.getElementById('equipment-type-filter').value = '';
+        document.getElementById('duration-filter').value = '';
+        document.getElementById('price-filter').value = '';
+        displayEquipment(equipmentData);
+    }
+
+    // Rent equipment function
+    async function rentEquipment(equipmentId, equipmentName, hourlyRate, dailyRate) {
+        const user = await supabaseHelpers.getCurrentUser();
+        
+        if (!user) {
+            supabaseHelpers.showNotification('Please login to rent equipment', 'info');
+            setTimeout(() => {
+                window.location.href = 'portal/login.html?redirect=' + encodeURIComponent(window.location.href);
+            }, 1500);
+            return;
+        }
+
+        showRentalModal(equipmentId, equipmentName, hourlyRate, dailyRate);
+    }
+
+    // Show rental modal
+    function showRentalModal(equipmentId, equipmentName, hourlyRate, dailyRate) {
+        const modal = document.createElement('div');
+        modal.className = 'booking-modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeRentalModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Rent: ${equipmentName}</h2>
+                <form id="rentalForm" class="booking-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar"></i> Start Date & Time</label>
+                        <input type="datetime-local" name="start_date" 
+                               min="${new Date().toISOString().slice(0, 16)}" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-check"></i> End Date & Time</label>
+                        <input type="datetime-local" name="end_date" 
+                               min="${new Date().toISOString().slice(0, 16)}" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-clock"></i> Rental Duration</label>
+                        <select name="duration_type" id="durationType" required>
+                            <option value="">Select duration type...</option>
+                            <option value="hourly">Hourly - KSh ${hourlyRate}/hour</option>
+                            <option value="daily">Daily - KSh ${dailyRate}/day</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-hashtag"></i> Number of Units</label>
+                        <input type="number" name="units" min="1" max="1" value="1" id="unitsInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-comment"></i> Special Requests (Optional)</label>
+                        <textarea name="requests" rows="3" placeholder="Any special requirements?"></textarea>
+                    </div>
+                    <div class="price-summary">
+                        <span>Rate:</span>
+                        <span class="price-value" id="rateDisplay">Select duration type</span>
+                    </div>
+                    <div class="total-summary">
+                        <span>Estimated Total:</span>
+                        <span id="modalRentalTotal" class="total-value">KSh 0</span>
+                    </div>
+                    <button type="submit" class="submit-booking">
+                        <i class="fas fa-check"></i> Confirm Rental
+                    </button>
+                </form>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Calculate rental duration and cost
+        const startInput = modal.querySelector('input[name="start_date"]');
+        const endInput = modal.querySelector('input[name="end_date"]');
+        const durationTypeSelect = modal.querySelector('#durationType');
+        const unitsInput = modal.querySelector('#unitsInput');
+
+        function calculateTotal() {
+            const start = new Date(startInput.value);
+            const end = new Date(endInput.value);
+            const durationType = durationTypeSelect.value;
+            const units = parseInt(unitsInput.value) || 1;
+
+            if (!start || !end || !durationType) return;
+
+            const diffMs = end - start;
+            const diffHours = diffMs / (1000 * 60 * 60);
+            
+            let cost = 0;
+            let rateText = '';
+
+            if (durationType === 'hourly') {
+                cost = Math.ceil(diffHours) * hourlyRate * units;
+                rateText = `KSh ${hourlyRate}/hour × ${Math.ceil(diffHours)} hours`;
+            } else if (durationType === 'daily') {
+                const days = Math.ceil(diffHours / 24);
+                cost = days * dailyRate * units;
+                rateText = `KSh ${dailyRate}/day × ${days} days`;
+            }
+
+            document.getElementById('rateDisplay').textContent = rateText;
+            document.getElementById('modalRentalTotal').textContent = `KSh ${cost}`;
+        }
+
+        startInput.addEventListener('change', calculateTotal);
+        endInput.addEventListener('change', calculateTotal);
+        durationTypeSelect.addEventListener('change', calculateTotal);
+        unitsInput.addEventListener('input', calculateTotal);
+
+        // Handle form submission
+        const form = modal.querySelector('#rentalForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await submitRental(e.target, equipmentId, hourlyRate, dailyRate);
+        });
+
+        // Close on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeRentalModal();
+        });
+    }
+
+    // Submit rental to database
+    async function submitRental(form, equipmentId, hourlyRate, dailyRate) {
+        const formData = new FormData(form);
+        const startDate = new Date(formData.get('start_date'));
+        const endDate = new Date(formData.get('end_date'));
+        const durationType = formData.get('duration_type');
+        
+        const diffMs = endDate - startDate;
+        const diffHours = Math.ceil(diffMs / (1000 * 60 * 60));
+        
+        let totalPrice = 0;
+        if (durationType === 'hourly') {
+            totalPrice = diffHours * hourlyRate;
+        } else {
+            const days = Math.ceil(diffHours / 24);
+            totalPrice = days * dailyRate;
+        }
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+        const result = await supabaseQueries.createEquipmentRental({
+            equipmentId: equipmentId,
+            startDate: startDate.toISOString(),
+            endDate: endDate.toISOString(),
+            durationHours: diffHours,
+            totalPrice: totalPrice
+        });
+
+        if (result.success) {
+            supabaseHelpers.showNotification('Rental confirmed! Check your dashboard.', 'success');
+            closeRentalModal();
+            setTimeout(() => {
+                window.location.href = 'portal/dashboard.html';
+            }, 2000);
+        } else {
+            supabaseHelpers.showNotification('Rental failed: ' + result.error, 'error');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> Confirm Rental';
+        }
+    }
+
+    // Close rental modal
+    function closeRentalModal() {
+        const modal = document.querySelector('.booking-modal');
+        if (modal) modal.remove();
+    }
+
+    // Setup filter listeners
+    function setupEquipmentFilters() {
+        const typeFilter = document.getElementById('equipment-type-filter');
+        const priceFilter = document.getElementById('price-filter');
+
+        if (typeFilter) {
+            typeFilter.addEventListener('change', (e) => {
+                currentFilters.type = e.target.value;
+                filterEquipment();
+            });
+        }
+
+        if (priceFilter) {
+            priceFilter.addEventListener('change', (e) => {
+                currentFilters.price = e.target.value;
+                filterEquipment();
+            });
+        }
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', () => {
+        loadEquipmentFromDatabase();
+        setupEquipmentFilters();
+    });
+
+    // Make functions globally available
+    window.rentEquipment = rentEquipment;
+    window.closeRentalModal = closeRentalModal;
+    window.clearEquipmentFilters = clearEquipmentFilters;
     </script>
 </body>
 </html>

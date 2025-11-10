@@ -232,17 +232,490 @@
         </div>
     </footer>
 
+    <!-- Supabase Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/supabase-auth.js"></script>
+    <script src="js/supabase-queries.js"></script>
+    
     <script src="js/data.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/tours.js"></script>
+    
     <script>
-    // Update all price displays to Kenyan Shillings
-    function updateCurrencyToKES() {
-      document.querySelectorAll('.total-price, .price, #total-price').forEach(function(el) {
-        el.innerHTML = el.innerHTML.replace(/\$([0-9,.]+)/g, 'KSh $1');
-      });
+    // ===================================
+    // TOURS PAGE - SUPABASE INTEGRATION
+    // ===================================
+    
+    let toursData = [];
+    let currentFilters = {
+        duration: '',
+        difficulty: '',
+        price: ''
+    };
+
+    // Load tours from Supabase on page load
+    async function loadToursFromDatabase() {
+        const result = await supabaseQueries.getAllTours();
+        
+        if (result.success && result.data.length > 0) {
+            toursData = result.data;
+            displayTours(toursData);
+        } else {
+            // Fallback to local data if database is empty
+            console.log('No tours in database, using local data');
+            if (typeof tours !== 'undefined') {
+                toursData = tours;
+                displayTours(toursData);
+            }
+        }
     }
-    document.addEventListener('DOMContentLoaded', updateCurrencyToKES);
+
+    // Display tours in grid
+    function displayTours(tours) {
+        const toursGrid = document.querySelector('.tours-grid');
+        if (!toursGrid) return;
+
+        if (tours.length === 0) {
+            toursGrid.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-search"></i>
+                    <p>No tours found matching your criteria</p>
+                    <button onclick="clearFilters()" class="btn-primary">Clear Filters</button>
+                </div>
+            `;
+            return;
+        }
+
+        toursGrid.innerHTML = tours.map(tour => `
+            <div class="tour-card" data-tour-id="${tour.id}">
+                <div class="tour-image">
+                    <img src="${tour.image_url || 'assets/tour-default.jpg'}" alt="${tour.name}">
+                    <span class="difficulty-badge ${tour.difficulty}">${tour.difficulty}</span>
+                </div>
+                <div class="tour-content">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-${getIconForType(tour.type)}"></i>
+                    </div>
+                    <h3>${tour.name}</h3>
+                    <p class="tour-description">${tour.description}</p>
+                    <div class="tour-details">
+                        <span><i class="fas fa-clock"></i> ${tour.duration}</span>
+                        <span><i class="fas fa-users"></i> Max ${tour.max_participants}</span>
+                    </div>
+                    <div class="tour-price">
+                        <span class="price">KSh ${tour.price}</span>
+                        <span class="per-person">per person</span>
+                    </div>
+                    <button class="book-button" onclick="bookTour('${tour.id}', '${tour.name}', ${tour.price})">
+                        <i class="fas fa-calendar-check"></i> Book Now
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Get icon based on tour type
+    function getIconForType(type) {
+        const icons = {
+            'kayaking': 'water',
+            'snorkeling': 'swimmer',
+            'island-hopping': 'island-tropical',
+            'cruise': 'ship',
+            'fishing': 'fish',
+            'diving': 'water'
+        };
+        return icons[type] || 'compass';
+    }
+
+    // Filter tours based on criteria
+    function filterTours() {
+        let filtered = [...toursData];
+
+        // Duration filter
+        if (currentFilters.duration) {
+            const duration = parseInt(currentFilters.duration);
+            filtered = filtered.filter(tour => {
+                const tourDuration = parseInt(tour.duration);
+                return tourDuration >= duration;
+            });
+        }
+
+        // Difficulty filter
+        if (currentFilters.difficulty) {
+            filtered = filtered.filter(tour => 
+                tour.difficulty.toLowerCase() === currentFilters.difficulty.toLowerCase()
+            );
+        }
+
+        // Price filter
+        if (currentFilters.price) {
+            filtered = filtered.filter(tour => {
+                const price = parseFloat(tour.price);
+                if (currentFilters.price === '0-50') return price < 50;
+                if (currentFilters.price === '50-100') return price >= 50 && price <= 100;
+                if (currentFilters.price === '100+') return price > 100;
+                return true;
+            });
+        }
+
+        displayTours(filtered);
+    }
+
+    // Clear all filters
+    function clearFilters() {
+        currentFilters = { duration: '', difficulty: '', price: '' };
+        document.getElementById('duration-filter').value = '';
+        document.getElementById('difficulty-filter').value = '';
+        document.getElementById('price-filter').value = '';
+        displayTours(toursData);
+    }
+
+    // Book tour function
+    async function bookTour(tourId, tourName, price) {
+        // Check if user is logged in
+        const user = await supabaseHelpers.getCurrentUser();
+        
+        if (!user) {
+            supabaseHelpers.showNotification('Please login to book a tour', 'info');
+            setTimeout(() => {
+                window.location.href = 'portal/login.html?redirect=' + encodeURIComponent(window.location.href);
+            }, 1500);
+            return;
+        }
+
+        // Create booking modal
+        showBookingModal(tourId, tourName, price);
+    }
+
+    // Show booking modal
+    function showBookingModal(tourId, tourName, price) {
+        const modal = document.createElement('div');
+        modal.className = 'booking-modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeBookingModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Book: ${tourName}</h2>
+                <form id="bookingForm" class="booking-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar"></i> Select Date</label>
+                        <input type="date" name="date" min="${new Date().toISOString().split('T')[0]}" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-clock"></i> Select Time</label>
+                        <select name="time" required>
+                            <option value="">Choose time...</option>
+                            <option value="08:00">8:00 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="14:00">2:00 PM</option>
+                            <option value="16:00">4:00 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-users"></i> Number of Participants</label>
+                        <input type="number" name="participants" min="1" max="20" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-comment"></i> Special Requests (Optional)</label>
+                        <textarea name="requests" rows="3" placeholder="Any special requirements?"></textarea>
+                    </div>
+                    <div class="price-summary">
+                        <span>Price per person:</span>
+                        <span class="price-value">KSh ${price}</span>
+                    </div>
+                    <div class="total-summary">
+                        <span>Total:</span>
+                        <span id="modalTotalPrice" class="total-value">KSh ${price}</span>
+                    </div>
+                    <button type="submit" class="submit-booking">
+                        <i class="fas fa-check"></i> Confirm Booking
+                    </button>
+                </form>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Update total price on participant change
+        const participantsInput = modal.querySelector('input[name="participants"]');
+        participantsInput.addEventListener('input', (e) => {
+            const participants = parseInt(e.target.value) || 1;
+            const total = price * participants;
+            document.getElementById('modalTotalPrice').textContent = `KSh ${total}`;
+        });
+
+        // Handle form submission
+        const form = modal.querySelector('#bookingForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await submitBooking(e.target, tourId, price);
+        });
+
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeBookingModal();
+        });
+    }
+
+    // Submit booking to database
+    async function submitBooking(form, tourId, pricePerPerson) {
+        const formData = new FormData(form);
+        const participants = parseInt(formData.get('participants'));
+        const totalPrice = pricePerPerson * participants;
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+        const result = await supabaseQueries.createTourBooking({
+            tourId: tourId,
+            date: formData.get('date'),
+            participants: participants,
+            totalPrice: totalPrice
+        });
+
+        if (result.success) {
+            supabaseHelpers.showNotification('Booking confirmed! Check your dashboard.', 'success');
+            closeBookingModal();
+            setTimeout(() => {
+                window.location.href = 'portal/dashboard.html';
+            }, 2000);
+        } else {
+            supabaseHelpers.showNotification('Booking failed: ' + result.error, 'error');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> Confirm Booking';
+        }
+    }
+
+    // Close booking modal
+    function closeBookingModal() {
+        const modal = document.querySelector('.booking-modal');
+        if (modal) modal.remove();
+    }
+
+    // Setup filter event listeners
+    function setupFilters() {
+        const durationFilter = document.getElementById('duration-filter');
+        const difficultyFilter = document.getElementById('difficulty-filter');
+        const priceFilter = document.getElementById('price-filter');
+
+        if (durationFilter) {
+            durationFilter.addEventListener('change', (e) => {
+                currentFilters.duration = e.target.value;
+                filterTours();
+            });
+        }
+
+        if (difficultyFilter) {
+            difficultyFilter.addEventListener('change', (e) => {
+                currentFilters.difficulty = e.target.value;
+                filterTours();
+            });
+        }
+
+        if (priceFilter) {
+            priceFilter.addEventListener('change', (e) => {
+                currentFilters.price = e.target.value;
+                filterTours();
+            });
+        }
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', () => {
+        loadToursFromDatabase();
+        setupFilters();
+    });
+
+    // Make functions globally available
+    window.bookTour = bookTour;
+    window.closeBookingModal = closeBookingModal;
+    window.clearFilters = clearFilters;
     </script>
+
+    <!-- Add booking modal styles -->
+    <style>
+        .booking-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .modal-content h2 {
+            color: #0066cc;
+            margin-bottom: 1.5rem;
+            padding-right: 2rem;
+        }
+
+        .booking-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .booking-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .booking-form label i {
+            color: #0066cc;
+        }
+
+        .booking-form input,
+        .booking-form select,
+        .booking-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .booking-form input:focus,
+        .booking-form select:focus,
+        .booking-form textarea:focus {
+            outline: none;
+            border-color: #0066cc;
+        }
+
+        .price-summary,
+        .total-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .price-summary {
+            background: #f8f9fa;
+        }
+
+        .total-summary {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .submit-booking {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #0066cc, #004aad);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .submit-booking:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
+        }
+
+        .submit-booking:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .no-results p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary {
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, #0066cc, #004aad);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
+        }
+    </style>
 </body>
 </html>
