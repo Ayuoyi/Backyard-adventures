@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Portal - Login</title>
     <link rel="stylesheet" href="../css/portal.css">
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <header>
@@ -33,5 +35,81 @@
     <footer>
         <p>&copy; 2025 Backyard Adventures. All rights reserved.</p>
     </footer>
+
+    <!-- Supabase Integration Scripts -->
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/supabase-auth.js"></script>
+    <script>
+        // Handle login form submission
+        document.querySelector('.login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const email = formData.get('email');
+            const password = formData.get('password');
+            const role = formData.get('role');
+            
+            // Disable submit button
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in...';
+            
+            try {
+                // Sign in with Supabase
+                const result = await supabaseAuth.signIn(email, password);
+                
+                if (result.success) {
+                    // Get user profile to check role
+                    const profileResult = await supabaseAuth.getUserProfile(result.user.id);
+                    
+                    if (profileResult.success) {
+                        const userRole = profileResult.profile.role;
+                        
+                        // Check if selected role matches user's actual role
+                        if (userRole !== role) {
+                            supabaseHelpers.showNotification(`You don't have ${role} access`, 'error');
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Login';
+                            return;
+                        }
+                        
+                        // Store user data
+                        localStorage.setItem('userRole', userRole);
+                        localStorage.setItem('userId', result.user.id);
+                        
+                        supabaseHelpers.showNotification('Login successful!', 'success');
+                        
+                        // Redirect based on role
+                        setTimeout(() => {
+                            if (userRole === 'admin') {
+                                window.location.href = 'admin-dashboard.html';
+                            } else if (userRole === 'employee') {
+                                window.location.href = 'employee-dashboard.html';
+                            } else {
+                                window.location.href = 'dashboard.html';
+                            }
+                        }, 1000);
+                    }
+                } else {
+                    supabaseHelpers.showNotification(result.error || 'Login failed', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Login';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                supabaseHelpers.showNotification('An error occurred. Please try again.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Login';
+            }
+        });
+
+        // Check if already logged in
+        (async () => {
+            const user = await supabaseHelpers.getCurrentUser();
+            if (user) {
+                window.location.href = 'dashboard.html';
+            }
+        })();
+    </script>
 </body>
 </html>
