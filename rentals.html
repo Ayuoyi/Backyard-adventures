@@ -57,88 +57,154 @@
             </div>
         </section>
 
-  <!-- Filters -->
+  <!-- Filters Section -->
   <section class="rental-filters">
+    <div class="section-header">
+      <h2>Find Your Equipment</h2>
+      <p class="section-subtitle">Filter by type, duration, and price</p>
+    </div>
     <div class="filter-container">
-      <select id="equipment-type-filter">
-        <option value="">Equipment Type</option>
-        <option value="kayak">Kayaks</option>
-        <option value="paddleboard">Paddleboards</option>
-        <option value="canoe">Canoes</option>
-      </select>
-      <select id="duration-filter">
-        <option value="">Rental Duration</option>
-        <option value="hourly">Hourly</option>
-        <option value="daily">Full Day</option>
-      </select>
-      <select id="price-filter">
-        <option value="">Price Range</option>
-        <option value="0-25">Under KSh 25/hour</option>
-        <option value="25-50">KSh 25 - KSh 50/hour</option>
-        <option value="50+">KSh 50+/hour</option>
-      </select>
+      <div class="filter-item">
+        <i class="fas fa-layer-group"></i>
+        <select id="equipment-type-filter">
+          <option value="">Equipment Type</option>
+          <option value="kayak">Kayaks</option>
+          <option value="paddleboard">Paddleboards</option>
+          <option value="canoe">Canoes</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <i class="far fa-clock"></i>
+        <select id="duration-filter">
+          <option value="">Rental Duration</option>
+          <option value="hourly">Hourly</option>
+          <option value="daily">Full Day</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <i class="fas fa-dollar-sign"></i>
+        <select id="price-filter">
+          <option value="">Price Range</option>
+          <option value="0-25">Under KSh 25/hour</option>
+          <option value="25-50">KSh 25 - KSh 50/hour</option>
+          <option value="50+">KSh 50+/hour</option>
+        </select>
+      </div>
     </div>
   </section>
 
   <!-- Equipment Cards -->
-  <section class="equipment-grid">
-    <div class="equipment-card">
-      <img src="assets/kayak.jpg" alt="Kayak">
-      <div class="equipment-info">
-        <h3>Kayak</h3>
-        <p>Explore the calm marina waters with our premium kayaks.</p>
-        <button class="cta-button">Rent Now</button>
+  <section class="equipment-section">
+    <div class="equipment-grid">
+      <div class="equipment-card">
+        <div class="equipment-image">
+          <img src="assets/kayak.jpg" alt="Kayak">
+          <div class="equipment-badge">Popular</div>
+        </div>
+        <div class="equipment-info">
+          <div class="icon-wrapper">
+            <i class="fas fa-ship"></i>
+          </div>
+          <h3>Single Kayak</h3>
+          <p>Explore the calm marina waters with our premium kayaks. Perfect for solo adventures.</p>
+          <div class="price-info">
+            <span class="price">KSh 25/hr</span>
+            <span class="duration">• Full Day: KSh 80</span>
+          </div>
+          <button class="cta-button primary">
+            <i class="fas fa-calendar-check"></i>
+            Rent Now
+          </button>
+        </div>
       </div>
-    </div>
 
-    <div class="equipment-card">
-      <img src="assets/paddle.jpg" alt="Paddleboard">
-      <div class="equipment-info">
-        <h3>Paddleboard</h3>
-        <p>Enjoy a smooth paddle session under the Florida sun.</p>
-        <button class="cta-button">Rent Now</button>
+      <div class="equipment-card">
+        <div class="equipment-image">
+          <img src="assets/paddle.jpg" alt="Paddleboard">
+          <div class="equipment-badge featured">Featured</div>
+        </div>
+        <div class="equipment-info">
+          <div class="icon-wrapper">
+            <i class="fas fa-water"></i>
+          </div>
+          <h3>Stand-Up Paddleboard</h3>
+          <p>Enjoy a smooth paddle session under the Florida sun. Great for fitness and fun.</p>
+          <div class="price-info">
+            <span class="price">KSh 20/hr</span>
+            <span class="duration">• Full Day: KSh 65</span>
+          </div>
+          <button class="cta-button primary">
+            <i class="fas fa-calendar-check"></i>
+            Rent Now
+          </button>
+        </div>
       </div>
-    </div>
 
-    <div class="equipment-card">
-      <img src="assets/jetski.jpg" alt="Jet Ski">
-      <div class="equipment-info">
-        <h3>Jet Ski</h3>
-        <p>Feel the adrenaline rush across the waves with our jet skis.</p>
-        <button class="cta-button">Rent Now</button>
+      <div class="equipment-card">
+        <div class="equipment-image">
+          <img src="assets/jetski.jpg" alt="Jet Ski">
+          <div class="equipment-badge premium">Premium</div>
+        </div>
+        <div class="equipment-info">
+          <div class="icon-wrapper">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3>Jet Ski</h3>
+          <p>Feel the adrenaline rush across the waves with our high-performance jet skis.</p>
+          <div class="price-info">
+            <span class="price">KSh 80/hr</span>
+            <span class="duration">• Full Day: KSh 250</span>
+          </div>
+          <button class="cta-button primary">
+            <i class="fas fa-calendar-check"></i>
+            Rent Now
+          </button>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Rental Info Section -->
   <section class="rental-info">
-    <h2>Rental Information</h2>
+    <div class="section-header">
+      <h2>Rental Information</h2>
+      <p class="section-subtitle">Everything you need to know</p>
+    </div>
     <div class="info-grid">
       <div class="info-card">
+        <div class="icon-wrapper">
+          <i class="fas fa-file-contract"></i>
+        </div>
         <h3>Rental Policies</h3>
         <ul>
-          <li>Valid ID and credit card required</li>
-          <li>Age requirements vary by equipment</li>
-          <li>24-hour cancellation policy</li>
-          <li>Weather-related rescheduling available</li>
+          <li><i class="fas fa-check-circle"></i> Valid ID and credit card required</li>
+          <li><i class="fas fa-check-circle"></i> Age requirements vary by equipment</li>
+          <li><i class="fas fa-check-circle"></i> 24-hour cancellation policy</li>
+          <li><i class="fas fa-check-circle"></i> Weather-related rescheduling available</li>
         </ul>
       </div>
       <div class="info-card">
+        <div class="icon-wrapper">
+          <i class="fas fa-box-open"></i>
+        </div>
         <h3>What's Included</h3>
         <ul>
-          <li>Safety gear (life jackets, etc.)</li>
-          <li>Basic instruction if needed</li>
-          <li>Equipment insurance</li>
-          <li>Storage lockers</li>
+          <li><i class="fas fa-check-circle"></i> Safety gear (life jackets, etc.)</li>
+          <li><i class="fas fa-check-circle"></i> Basic instruction if needed</li>
+          <li><i class="fas fa-check-circle"></i> Equipment insurance</li>
+          <li><i class="fas fa-check-circle"></i> Storage lockers</li>
         </ul>
       </div>
       <div class="info-card">
+        <div class="icon-wrapper">
+          <i class="fas fa-clipboard-check"></i>
+        </div>
         <h3>Requirements</h3>
         <ul>
-          <li>Signed waiver form</li>
-          <li>Basic swimming ability</li>
-          <li>Appropriate attire</li>
-          <li>Understanding of safety rules</li>
+          <li><i class="fas fa-check-circle"></i> Signed waiver form</li>
+          <li><i class="fas fa-check-circle"></i> Basic swimming ability</li>
+          <li><i class="fas fa-check-circle"></i> Appropriate attire</li>
+          <li><i class="fas fa-check-circle"></i> Understanding of safety rules</li>
         </ul>
       </div>
     </div>
@@ -146,6 +212,9 @@
 
   <!-- Weather Advisory -->
   <section class="weather-advisory">
+    <div class="icon-wrapper">
+      <i class="fas fa-cloud-sun"></i>
+    </div>
     <h2>Weather Advisory</h2>
     <div class="weather-content">
       <p>
@@ -153,224 +222,25 @@
         conditions, we may reschedule your rental. Always check the latest
         weather forecast before booking.
       </p>
-      <div id="weather-widget"></div>
+      <div class="weather-features">
+        <div class="feature-item">
+          <i class="fas fa-check-circle"></i>
+          <span>Real-time weather monitoring</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-check-circle"></i>
+          <span>Free rescheduling for bad weather</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-check-circle"></i>
+          <span>Safety-first approach</span>
+        </div>
+      </div>
     </div>
   </section>
 </main>
 
-<style>
-/* GENERAL */
-main {
-  font-family: 'Poppins', sans-serif;
-  background: #f3f8fc;
-  color: #1a1a1a;
-  margin: 0;
-  padding: 0;
-}
-
-/* HERO SECTION */
-.equipment-rentals-hero {
-  position: relative;
-  background: url('assets/hero-bg.jpg') center/cover no-repeat;
-  height: 50vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0 0 40px 40px;
-  overflow: hidden;
-}
-
-.equipment-rentals-hero .overlay {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 70, 150, 0.5);
-}
-
-.equipment-rentals-hero .content {
-  position: relative;
-  text-align: center;
-  color: #fff;
-}
-
-.equipment-rentals-hero h1 {
-  font-size: 2.8rem;
-  margin-bottom: 10px;
-}
-
-.equipment-rentals-hero p {
-  font-size: 1.2rem;
-}
-
-/* FILTERS */
-.rental-filters {
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 50, 150, 0.1);
-  margin: 40px auto;
-  max-width: 900px;
-  padding: 20px;
-}
-
-.filter-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: center;
-}
-
-.filter-container select {
-  padding: 10px 15px;
-  border-radius: 10px;
-  border: 1px solid #cfdff6;
-  font-size: 1rem;
-  background: #eaf3ff;
-  color: #003c8f;
-  transition: all 0.3s;
-}
-
-.filter-container select:hover {
-  border-color: #007bff;
-}
-
-/* EQUIPMENT GRID */
-.equipment-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px;
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 0 20px;
-}
-
-.equipment-card {
-  background: linear-gradient(145deg, #ffffff, #eaf4ff);
-  border-radius: 20px;
-  box-shadow: 0 6px 16px rgba(0, 60, 150, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.equipment-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 24px rgba(0, 60, 180, 0.2);
-}
-
-.equipment-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.equipment-info {
-  padding: 15px 20px;
-  text-align: center;
-}
-
-.equipment-info h3 {
-  color: #004aad;
-  font-size: 1.3rem;
-  margin-bottom: 8px;
-}
-
-.equipment-info p {
-  font-size: 0.95rem;
-  color: #444;
-  margin-bottom: 12px;
-}
-
-/* CTA BUTTON */
-.cta-button {
-  background: linear-gradient(90deg, #007bff, #00b4ff);
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 25px;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.cta-button:hover {
-  background: linear-gradient(90deg, #0060d6, #0090e0);
-}
-
-/* INFO SECTION */
-.rental-info {
-  max-width: 1100px;
-  margin: 60px auto;
-  text-align: center;
-  padding: 0 20px;
-}
-
-.rental-info h2 {
-  color: #004aad;
-  font-size: 2rem;
-  margin-bottom: 30px;
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px;
-}
-
-.info-card {
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 60, 150, 0.1);
-  padding: 20px;
-  text-align: left;
-}
-
-.info-card h3 {
-  color: #004aad;
-  margin-bottom: 10px;
-}
-
-.info-card ul {
-  list-style: none;
-  padding: 0;
-  color: #333;
-}
-
-.info-card li {
-  margin: 6px 0;
-}
-
-/* WEATHER SECTION */
-.weather-advisory {
-  background: linear-gradient(135deg, #dff1ff, #ffffff);
-  border-radius: 20px;
-  box-shadow: 0 6px 16px rgba(0, 60, 150, 0.1);
-  max-width: 1000px;
-  margin: 60px auto;
-  padding: 40px 20px;
-  text-align: center;
-}
-
-.weather-advisory h2 {
-  color: #004aad;
-  margin-bottom: 15px;
-}
-
-.weather-content p {
-  max-width: 700px;
-  margin: 0 auto 20px;
-  color: #333;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-/* RESPONSIVE */
-@media (max-width: 700px) {
-  .equipment-rentals-hero h1 { font-size: 2rem; }
-  .equipment-rentals-hero p { font-size: 1rem; }
-  .filter-container { flex-direction: column; align-items: center; }
-  .equipment-info p { font-size: 0.9rem; }
-}
-</style>
-
-    <footer>
+<footer>
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Contact Us</h3>
