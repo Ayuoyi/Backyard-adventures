@@ -471,8 +471,153 @@
         </div>
     </footer>
 
+    <!-- Supabase Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/supabase-auth.js"></script>
+    <script src="js/supabase-queries.js"></script>
+    
     <script src="js/data.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/home.js"></script>
+    
+    <script>
+    // ===================================
+    // HOMEPAGE - SUPABASE INTEGRATION
+    // ===================================
+
+    // Load featured tours from database
+    async function loadFeaturedTours() {
+        const result = await supabaseQueries.getAllTours();
+        
+        if (result.success && result.data.length > 0) {
+            const featuredTours = result.data.slice(0, 3); // Show top 3 tours
+            displayFeaturedTours(featuredTours);
+        }
+    }
+
+    // Display featured tours
+    function displayFeaturedTours(tours) {
+        const tourGrid = document.querySelector('.featured-tours .tour-grid');
+        if (!tourGrid) return;
+
+        tourGrid.innerHTML = tours.map(tour => `
+            <div class="tour-card">
+                <div class="tour-image">
+                    <img src="${tour.image_url || 'assets/tour-default.jpg'}" alt="${tour.name}">
+                    <span class="tour-badge ${tour.difficulty}">${tour.difficulty}</span>
+                </div>
+                <div class="tour-info">
+                    <h3>${tour.name}</h3>
+                    <p>${tour.description.substring(0, 100)}...</p>
+                    <div class="tour-details">
+                        <span><i class="fas fa-clock"></i> ${tour.duration} hours</span>
+                        <span class="price">KSh ${tour.price}</span>
+                    </div>
+                    <a href="tours.html" class="cta-button">View Details</a>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Load featured equipment from database
+    async function loadFeaturedEquipment() {
+        const result = await supabaseQueries.getAvailableEquipment();
+        
+        if (result.success && result.data.length > 0) {
+            const featuredEquipment = result.data.slice(0, 4); // Show top 4 items
+            displayFeaturedEquipment(featuredEquipment);
+        }
+    }
+
+    // Display featured equipment
+    function displayFeaturedEquipment(equipment) {
+        const equipmentGrid = document.querySelector('.equipment-preview .equipment-grid');
+        if (!equipmentGrid) return;
+
+        equipmentGrid.innerHTML = equipment.map(item => `
+            <div class="equipment-card">
+                <div class="equipment-image">
+                    <img src="${item.image_url || 'assets/equipment-default.jpg'}" alt="${item.name}">
+                </div>
+                <div class="equipment-info">
+                    <h3>${item.name}</h3>
+                    <p>${item.description.substring(0, 80)}...</p>
+                    <div class="price-info">
+                        <div class="price">KSh ${item.hourly_rate}/hour</div>
+                    </div>
+                    <a href="rentals.html" class="cta-button">Rent Now</a>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Update login button to check authentication
+    async function updateLoginButton() {
+        const user = await supabaseHelpers.getCurrentUser();
+        const loginBtn = document.getElementById('loginBtn');
+        
+        if (user) {
+            loginBtn.textContent = 'Dashboard';
+            loginBtn.onclick = () => {
+                window.location.href = 'portal/dashboard.html';
+            };
+        } else {
+            loginBtn.textContent = 'Login';
+            loginBtn.onclick = () => {
+                document.getElementById('loginModal').style.display = 'flex';
+            };
+        }
+    }
+
+    // Update the login form to use Supabase
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.onsubmit = async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+            
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in...';
+            
+            const result = await supabaseAuth.signIn(email, password);
+            
+            if (result.success) {
+                const profile = await supabaseAuth.getUserProfile();
+                
+                if (profile.success && profile.data.role === role) {
+                    supabaseHelpers.showNotification('Login successful!', 'success');
+                    
+                    setTimeout(() => {
+                        if (role === 'admin' || role === 'employee') {
+                            window.location.href = 'portal/admin-dashboard.html';
+                        } else {
+                            window.location.href = 'portal/dashboard.html';
+                        }
+                    }, 1000);
+                } else {
+                    supabaseHelpers.showNotification('Role mismatch. Please select the correct role.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Login';
+                }
+            } else {
+                supabaseHelpers.showNotification('Login failed: ' + result.error, 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Login';
+            }
+        };
+    }
+
+    // Initialize homepage
+    document.addEventListener('DOMContentLoaded', () => {
+        loadFeaturedTours();
+        loadFeaturedEquipment();
+        updateLoginButton();
+    });
+    </script>
 </body>
 </html>
